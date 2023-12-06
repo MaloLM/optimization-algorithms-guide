@@ -1,5 +1,6 @@
 import math
 import random
+import matplotlib.pyplot as plt
 
 CITIES = {
     "Gotham City": (34, 52),
@@ -118,3 +119,53 @@ class TravellingSalesman:
     
     def get_distance(self, city1, city2):
         return self.distances.get((city1, city2)) or self.distances.get((city2, city1))
+
+    def set_starting_point(self, city_name):
+        """
+        Set the starting point of the TSP route by moving the specified city to the beginning of the cities list.
+
+        Parameters:
+        city_name (str): The name of the city to be set as the starting point.
+
+        Raises:
+        ValueError: If the specified city is not found in the list of cities.
+        """
+        # Find the index of the city
+        city_index = next((index for index, city in enumerate(self.cities) if city[0] == city_name), None)
+
+        # Raise an error if the city is not found
+        if city_index is None:
+            raise ValueError(f"City '{city_name}' not found in the list of cities.")
+
+        # Move the city to the beginning of the list
+        self.cities.insert(0, self.cities.pop(city_index))
+
+
+    def draw_path(self, path):
+        """
+        Draw the path on a map using matplotlib, with the figure border hidden but grid preserved.
+        
+        Parameters:
+        path (list of int): A list of indices representing the order in which cities are visited in the optimal path.
+        """
+        x = [self.cities[i][1][0] for i in path]  # Extract x-coordinates
+        y = [self.cities[i][1][1] for i in path]  # Extract y-coordinates
+
+        plt.figure(figsize=(10, 6))
+        plt.plot(x, y, 'o-', mfc='r')  # Plot the points and lines in red
+        plt.plot(x[0], y[0], 'o', mfc='g')  # Color the starting point in green
+
+        plt.title("Path Traversed in TSP")
+
+        # Hide the figure border
+        for spine in plt.gca().spines.values():
+            spine.set_visible(False)
+
+        for i, city in enumerate(path):
+            if i < len(path) - 1:  # Avoid annotating the last city
+                annotation_label = f"{self.cities[city][0]} ({i + 1})"
+                plt.annotate(annotation_label, (x[i], y[i]), textcoords="offset points", xytext=(0,10), ha='center')
+
+        plt.grid(True)
+        plt.show()
+

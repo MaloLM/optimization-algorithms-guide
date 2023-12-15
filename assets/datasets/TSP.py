@@ -142,30 +142,35 @@ class TravellingSalesman:
 
 
     def draw_path(self, path):
-        """
-        Draw the path on a map using matplotlib, with the figure border hidden but grid preserved.
-        
-        Parameters:
-        path (list of int): A list of indices representing the order in which cities are visited in the optimal path.
-        """
-        x = [self.cities[i][1][0] for i in path]  # Extract x-coordinates
-        y = [self.cities[i][1][1] for i in path]  # Extract y-coordinates
+            """
+            Draw the path on a map using matplotlib, with the figure border hidden but grid preserved,
+            and display the total path length in the chart title.
+            
+            Parameters:
+            path (list of int): A list of indices representing the order in which cities are visited in the optimal path.
+            """
+            x = [self.cities[i][1][0] for i in path]  # Extract x-coordinates
+            y = [self.cities[i][1][1] for i in path]  # Extract y-coordinates
 
-        plt.figure(figsize=(10, 6))
-        plt.plot(x, y, 'o-', mfc='r')  # Plot the points and lines in red
-        plt.plot(x[0], y[0], 'o', mfc='g')  # Color the starting point in green
+            total_distance = 0
+            for i in range(len(path) - 1):
+                total_distance += self.get_distance(self.cities[path[i]][0], self.cities[path[i + 1]][0])
 
-        plt.title("Path Traversed in TSP")
+            plt.figure(figsize=(10, 6))
+            plt.plot(x, y, 'o-', mfc='r')  # Plot the points and lines in red
+            plt.plot(x[0], y[0], 'o', mfc='g')  # Color the starting point in green
 
-        # Hide the figure border
-        for spine in plt.gca().spines.values():
-            spine.set_visible(False)
+            plt.title(f"Path Traversed in TSP (Total Distance: {total_distance:.2f} units)")
 
-        for i, city in enumerate(path):
-            if i < len(path) - 1:  # Avoid annotating the last city
-                annotation_label = f"{self.cities[city][0]} ({i + 1})"
-                plt.annotate(annotation_label, (x[i], y[i]), textcoords="offset points", xytext=(0,10), ha='center')
+            # Hide the figure border
+            for spine in plt.gca().spines.values():
+                spine.set_visible(False)
 
-        plt.grid(True)
-        plt.show()
+            for i, city in enumerate(path):
+                if i < len(path) - 1:  # Avoid annotating the last city
+                    annotation_label = f"{self.cities[city][0]} ({i + 1})"
+                    plt.annotate(annotation_label, (x[i], y[i]), textcoords="offset points", xytext=(0,10), ha='center')
+
+            plt.grid(True)
+            plt.show()
 

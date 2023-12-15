@@ -1,4 +1,6 @@
 import random
+import matplotlib.pyplot as plt
+import numpy as np
 
 ITEMS = [
     {"name": "laptop", "weight": 1.5, "value": 1500},
@@ -95,16 +97,88 @@ ITEMS = [
 
         
 
-class Kackpack:
-    def __init__(self, nb_items):
+class Knapsack:
+    def __init__(self, nb_items, seed=None):
         self.nb_items = nb_items
-        
-        if nb_items > len(ITEMS):
-            raise ValueError("Number of items requested exceeds available unique items.")
+        self.weight_limit = 0
+        self.solution = []
 
-        self.items = random.sample(ITEMS, nb_items)
+        # Set the random seed if provided
+        if seed is not None:
+            random.seed(seed)
+
+        if nb_items > len(ITEMS):
+            print(f"Number of items requested exceeds available unique items.\n Setting to maximum: {len(ITEMS)}")
+            self.nb_items = len(ITEMS)
+
+        self.items = random.sample(ITEMS, self.nb_items)
+
+    def show_state(self):
+        print(f"Total weight (taking everything): {self.total_weight()} kg \nTotal value (taking everything): {self.total_value()} $")
     
     def get_assets(self):
         return self.items
 
+    def total_weight(self):
+        # Compute the total weight of the items
+        return sum(item['weight'] for item in self.items)
+
+    def total_value(self):
+        # Compute the total value of the items
+        return sum(item['value'] for item in self.items)
+    
+    
+    def plot_cumulative_knapsack_with_value(self,):
+        # Calculate cumulative weights and total value
+        total_value = 0
+        current_weight = 0
+        cumulative_weights = []  # This will store the end point of each item in the bar
+        start_points = [0]  # This will store the start point of each item in the bar
+
+        for item in self.solution:
+            current_weight += item['weight']
+            total_value += item['value']
+            start_points.append(current_weight)
+            cumulative_weights.append(min(current_weight, self.weight_limit))
+
+        # Prepare data for plotting
+        item_names = [f"{item['name']} (Value: {item['value']}, Weight: {item['weight']}kg)" for item in self.solution]
+        colors = plt.cm.viridis(np.linspace(0, 1, len(self.solution)))
+
+        # Create the figure with three subplots
+        fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(12, 8), gridspec_kw={'height_ratios': [4, 1, 1]})
+
+        # Plot each item as a segment in the bar on the first subplot
+        for i, item in enumerate(item_names):
+            segment_length = self.solution[i]['weight']  # Length of the segment is the item's weight
+            ax1.barh("Knapsack", segment_length, left=start_points[i], color=colors[i], edgecolor='white', label=item)
+
+        if cumulative_weights:
+            total_weight = cumulative_weights[-1]
+        else:
+            total_weight = 0  # Default value if no items are in the solution
+
+        ax1.set_title(f'Knapsack Solution (Total Weight: {total_weight:.2f} / {self.weight_limit}kg, Total Value: {total_value})')
+        ax1.set_xlabel('Cumulative Weight')
+
+        # Drawing a line for the weight limit on the first subplot
+        ax1.axvline(x=self.weight_limit, color='red', linestyle='-')
+
+        # Third subplot: Solution value vs total possible value
+        total_possible_value = self.total_value()
+        ax2.barh("Value", total_value, color='green', edgecolor='white')
+        ax2.axvline(x=total_possible_value, color='red', linestyle='-')  # Total possible value line
+        ax2.set_title(f'Solution Value vs Total Possible Value (Solution Value: {total_value}, Total Value: {total_possible_value})')
+        ax2.set_xlim(0, max(total_value, total_possible_value) * 1.1)  # Adjust x-axis limit
+
+        # Create the legend on the fourth subplot
+        handles, labels = ax1.get_legend_handles_labels()
+        ax3.legend(handles, labels, loc='upper center', ncol=3)
+        ax3.axis('off')  # Turn off axis for the legend subplot
+
+        # Adjust layout for better appearance
+        plt.tight_layout()
+
+        # Show the plot
+        plt.show()
 

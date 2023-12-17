@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import random
 
 ASSETS = [
@@ -82,8 +83,16 @@ ASSETS = [
 
 class Portfolio:
         
-    def __init__(self, nb_asset: int) -> None:
+    def __init__(self, nb_asset: int, budget: float, seed=None) -> None:
         self.nb_asset = nb_asset
+        self.total_cost = 0 
+        self.total_return = 0 
+        self.total_risk = 0 
+        self.budget = budget
+
+        # Set the random seed if provided
+        if seed is not None:
+            random.seed(seed)
 
         if nb_asset > len(ASSETS):
             raise ValueError("Number of assets requested exceeds available unique assets.")
@@ -92,3 +101,68 @@ class Portfolio:
 
     def get_assets(self):
         return self.financial_assets
+    
+    def get_total_cost(self):
+        for asset in self.financial_assets:
+            self.total_cost += asset["UnitCost"]
+        return self.total_cost
+
+    def get_total_return(self):
+        for asset in self.financial_assets:
+            self.total_return += asset["ExpectedReturn"]
+        return self.total_return
+
+    def get_total_risk(self):
+        for asset in self.financial_assets:
+            self.total_risk += asset["Risk"]
+        return self.total_risk
+    
+    def calculate_investment_amounts(self, weights):
+        # Scale weights based on the budget and unit costs
+        scaled_weights = []
+        for w, asset in zip(weights, self.financial_assets):
+            if w == 0:
+                scaled_weight = 0
+            else:
+                scaled_weight = w * self.budget / (asset['UnitCost'] * w)
+            scaled_weights.append(scaled_weight)
+
+        total_scaled_weight = sum(scaled_weights)
+        if total_scaled_weight == 0:
+            return [0 for _ in weights]
+        return [w / total_scaled_weight for w in scaled_weights]
+    
+    def plot_results(self, named_best_portfolio, title="Optimized Portfolio summary"):
+        # Total cost and return for the optimized portfolio
+        total_optimized_cost = sum(asset['UnitCost'] * named_best_portfolio[asset['AssetName']] for asset in self.financial_assets)
+        total_optimized_return = sum(asset['ExpectedReturn'] * named_best_portfolio[asset['AssetName']] for asset in self.financial_assets)
+
+        # Create a figure and a set of subplots
+        fig, axs = plt.subplots(1, 1, figsize=(10, 5))
+        axs.axis('off')
+
+        title = f'{title} (Budget: {self.budget} coins)'
+        # Setting the title of the chart
+        fig.suptitle(title, fontsize=16)
+
+        # Preparing data for the table
+        table_data = [["Asset Name", "Quantity", "Proportion", "Cost", "Expected Return"]]
+        for asset in self.financial_assets:
+            asset_name = asset['AssetName']
+            quantity = named_best_portfolio[asset_name]
+            proportion = quantity / sum(named_best_portfolio.values())
+            cost = quantity * asset['UnitCost']
+            expected_return = quantity * asset['ExpectedReturn']
+            table_data.append([asset_name, f"{quantity:.2f}", f"{proportion:.2%}", f"{cost:.2f}", f"{expected_return:.2f}"])
+
+        # Adding row for total return
+        table_data.append(["Total", "", "", f"{total_optimized_cost:.2f}", f"{total_optimized_return:.2f}"])
+
+        # Creating the table
+        table = axs.table(cellText=table_data, loc='center', cellLoc='center', colWidths=[0.4, 0.1, 0.1, 0.2, 0.2])
+        table.auto_set_font_size(False)
+        table.set_fontsize(10)
+        table.scale(1, 1.5)
+
+        fig.tight_layout()
+        plt.show()

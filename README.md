@@ -2,6 +2,8 @@
 
 This project is an open-source collection of various optimization algorithms, each presented in a Jupyter notebook. Its purpose is to provide a comprehensive resource for understanding and implementing these algorithms. It is a valuable asset for both educational and practical applications in optimization tasks.
 
+!["A quick overview of some visualizations"](./assets/images/demo/demo.gif)
+
 ## Table of Contents
 
 1. [Installation](#installation)
@@ -14,7 +16,8 @@ This project is an open-source collection of various optimization algorithms, ea
 4. [Further Exploration](#further-exploration)
 5. [Licensing](#licensing)
 6. [Contributing](#contributing)
-7. [Contact Information](#contact-information)
+7. [Disclaimer of Liability and Usage Terms](#disclaimer-of-liability-and-usage-terms)
+8. [Contact Information](#contact-information)
 
 ## Installation
 - Instructions for setting up the project environment.
@@ -28,7 +31,8 @@ This project is an open-source collection of various optimization algorithms, ea
 For each algorithm, the corresponding Jupyter notebook will include:
 - General Introduction
 - Usage Examples
-- Strengths and Weaknesses
+- Strengths
+- Weaknesses
 - Python Demonstration
 - Recommended Open Source Tools
 - Research Sources
@@ -79,11 +83,9 @@ This project is licensed under the Apache 2.0 License. It allows you to freely u
 
 ## Disclaimer of Liability and Usage Terms
 
-<div class="alert alert-block alert-info">
-This Python code is only provided for demonstration and educational purposes. It is not intended for, nor should it be used directly in, production environments or for direct integration into operational systems.
+This project python code is only provided for demonstration and educational purposes. It is not intended for, nor should it be used directly, as it is, in production environments or for direct integration into operational systems.
 
 Users are advised that employing the code directly in such manners may result in unforeseen issues or incidents. The creators, contributors, or distributors of this code expressly disclaim any liability for any adverse outcomes resulting from the direct reuse or misapplication of the code. It is the responsibility of the user to evaluate and bear all risks associated with the use and adaptation of this code.
-</div>
 
 ## Contact Information
 

@@ -1,8 +1,8 @@
-pulp # 
-numpy
-matplotlib
-imageio
-networkx
 pulp
 scipy
-sklearn
+numpy
+imageio
+networkx
+matplotlib
+scikit-learn
+scikit-optimize

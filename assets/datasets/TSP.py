@@ -95,10 +95,35 @@ CITIES = {
 
 class TravellingSalesman:
     """
-    Generates a random TSP problem dataset
+    A class representing a Travelling Salesman Problem (TSP) with a given number of cities.
+
+    Attributes:
+        cities (list): A list of tuples containing city names and their coordinates.
+        distances (dict): A dictionary holding the precomputed distances between each pair of cities.
+
+    Methods:
+        calculate_distances(): Computes the distances between each pair of cities.
+        distance(point1, point2): Calculates the Euclidean distance between two points.
+        get_distance(city1, city2): Retrieves the distance between two cities.
+        set_starting_point(city_name): Sets a city as the starting point for the TSP route.
+        draw_path(path): Draws the TSP path on a plot.
     """
-    def __init__(self, nb_cities) -> None:
+    def __init__(self, nb_cities, seed=None) -> None:
+        """
+        Initializes the TravellingSalesman class with a specified number of cities.
+
+        Parameters:
+        nb_cities (int): The number of cities to include in the TSP.
+        seed (int, optional): A seed value for random number generation.
+
+        Raises:
+        ValueError: If the number of cities requested exceeds the available unique cities.
+        """
         self.cities = []
+
+        # Set the random seed if provided
+        if seed is not None:
+            random.seed(seed)
 
         if nb_cities > len(CITIES):
             raise ValueError("Number of cities requested exceeds available unique cities.")
@@ -107,6 +132,12 @@ class TravellingSalesman:
         self.distances = self.calculate_distances()
 
     def calculate_distances(self):
+        """
+        Calculates the Euclidean distances between each pair of cities.
+
+        Returns:
+        dict: A dictionary with city pairs as keys and their distances as values.
+        """
         distances = {}
         for i, (city1, (x1, y1)) in enumerate(self.cities):
             for j, (city2, (x2, y2)) in enumerate(self.cities):
@@ -115,9 +146,31 @@ class TravellingSalesman:
         return distances
 
     def distance(self, point1, point2):
+        """
+        Calculates the Euclidean distance between two points.
+
+        Parameters:
+        point1 (tuple): The (x, y) coordinates of the first point.
+        point2 (tuple): The (x, y) coordinates of the second point.
+
+        Returns:
+        float: The Euclidean distance between the two points.
+        """
         return math.sqrt((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)
     
     def get_distance(self, city1, city2):
+        """
+        Retrieves the distance between two cities, considering the distance is symmetric.
+
+        Parameters:
+        city1 (str): The name of the first city.
+        city2 (str): The name of the second city.
+
+        Returns:
+        float: The distance between the two cities.
+        """
+        # Return the distance, handling the case where the city pair might be reversed
+        
         return self.distances.get((city1, city2)) or self.distances.get((city2, city1))
 
     def set_starting_point(self, city_name):
@@ -142,35 +195,39 @@ class TravellingSalesman:
 
 
     def draw_path(self, path):
-            """
-            Draw the path on a map using matplotlib, with the figure border hidden but grid preserved,
-            and display the total path length in the chart title.
-            
-            Parameters:
-            path (list of int): A list of indices representing the order in which cities are visited in the optimal path.
-            """
-            x = [self.cities[i][1][0] for i in path]  # Extract x-coordinates
-            y = [self.cities[i][1][1] for i in path]  # Extract y-coordinates
+        """
+        Draws the TSP route on a 2D plot using matplotlib.
 
-            total_distance = 0
-            for i in range(len(path) - 1):
-                total_distance += self.get_distance(self.cities[path[i]][0], self.cities[path[i + 1]][0])
+        Parameters:
+        path (list of int): A list of city indices representing the order of visitation in the TSP route.
+        """
+        # Extract x and y coordinates of the path
+        x = [self.cities[i][1][0] for i in path]  # Extract x-coordinates
+        y = [self.cities[i][1][1] for i in path]  # Extract y-coordinates
 
-            plt.figure(figsize=(10, 6))
-            plt.plot(x, y, 'o-', mfc='r')  # Plot the points and lines in red
-            plt.plot(x[0], y[0], 'o', mfc='g')  # Color the starting point in green
+        # Compute the total distance of the path
+        total_distance = 0
+        for i in range(len(path) - 1):
+            total_distance += self.get_distance(self.cities[path[i]][0], self.cities[path[i + 1]][0])
 
-            plt.title(f"Path Traversed in TSP (Total Distance: {total_distance:.2f} units)")
+        # Setup the plot
+        plt.figure(figsize=(10, 6))
+        plt.plot(x, y, 'o-', mfc='r')  # Plot the points and lines in red
+        plt.plot(x[0], y[0], 'o', mfc='g')  # Color the starting point in green
 
-            # Hide the figure border
-            for spine in plt.gca().spines.values():
-                spine.set_visible(False)
+        # Setting the title with total distance
+        plt.title(f"Path Traversed in TSP (Total Distance: {total_distance:.2f} units)")
 
-            for i, city in enumerate(path):
-                if i < len(path) - 1:  # Avoid annotating the last city
-                    annotation_label = f"{self.cities[city][0]} ({i + 1})"
-                    plt.annotate(annotation_label, (x[i], y[i]), textcoords="offset points", xytext=(0,10), ha='center')
+        # Hide the figure border
+        for spine in plt.gca().spines.values():
+            spine.set_visible(False)
 
-            plt.grid(True)
-            plt.show()
+        # Annotate each city in the path
+        for i, city in enumerate(path):
+            if i < len(path) - 1:  # Avoid annotating the last city
+                annotation_label = f"{self.cities[city][0]} ({i + 1})"
+                plt.annotate(annotation_label, (x[i], y[i]), textcoords="offset points", xytext=(0,10), ha='center')
 
+        # Display the grid and show the plot
+        plt.grid(True)
+        plt.show()

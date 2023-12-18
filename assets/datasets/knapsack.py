@@ -98,7 +98,31 @@ ITEMS = [
         
 
 class Knapsack:
+    """
+    A class to represent a knapsack problem.
+
+    Attributes:
+        nb_items (int): Number of items to consider in the knapsack problem.
+        weight_limit (float): The weight limit of the knapsack.
+        solution (list): List of items that are included in the optimal knapsack solution.
+        items (list): List of all items available for the knapsack problem.
+
+    Methods:
+        show_state(): Prints the total weight and value if all items are taken.
+        get_assets(): Returns the list of items available.
+        total_weight(): Calculates the total weight of all items.
+        total_value(): Calculates the total value of all items.
+        plot_cumulative_knapsack_with_value(): Visualizes the knapsack solution.
+    """
+
     def __init__(self, nb_items, seed=None):
+        """
+        Initializes the Knapsack class with a specified number of items.
+
+        Parameters:
+        nb_items (int): The number of items to include in the knapsack problem.
+        seed (int, optional): A seed value for random number generation.
+        """
         self.nb_items = nb_items
         self.weight_limit = 0
         self.solution = []
@@ -107,33 +131,59 @@ class Knapsack:
         if seed is not None:
             random.seed(seed)
 
+        # Check if the requested number of items exceeds the available unique items
         if nb_items > len(ITEMS):
             print(f"Number of items requested exceeds available unique items.\n Setting to maximum: {len(ITEMS)}")
             self.nb_items = len(ITEMS)
 
+        # Randomly sample items from the available list
         self.items = random.sample(ITEMS, self.nb_items)
 
     def show_state(self):
+        """
+        Prints the total weight and value of all items if taken together.
+        """
         print(f"Total weight (taking everything): {self.total_weight()} kg \nTotal value (taking everything): {self.total_value()} $")
     
     def get_assets(self):
+        """
+        Returns the list of all available items.
+
+        Returns:
+        list: A list of items available for the knapsack problem.
+        """
         return self.items
 
     def total_weight(self):
-        # Compute the total weight of the items
+        """
+        Calculates the total weight of all items.
+
+        Returns:
+        float: Total weight of all items.
+        """
         return sum(item['weight'] for item in self.items)
 
     def total_value(self):
-        # Compute the total value of the items
+        """
+        Calculates the total value of all items.
+
+        Returns:
+        float: Total value of all items.
+        """
         return sum(item['value'] for item in self.items)
     
     
-    def plot_cumulative_knapsack_with_value(self,):
-        # Calculate cumulative weights and total value
+    def plot_cumulative_knapsack_with_value(self):
+        """
+        Visualizes the knapsack solution using matplotlib.
+
+        This method plots the cumulative weights and total value of items in the solution,
+        comparing it to the total possible value and the weight limit.
+        """
         total_value = 0
         current_weight = 0
-        cumulative_weights = []  # This will store the end point of each item in the bar
-        start_points = [0]  # This will store the start point of each item in the bar
+        cumulative_weights = []
+        start_points = [0]
 
         for item in self.solution:
             current_weight += item['weight']
@@ -141,44 +191,31 @@ class Knapsack:
             start_points.append(current_weight)
             cumulative_weights.append(min(current_weight, self.weight_limit))
 
-        # Prepare data for plotting
         item_names = [f"{item['name']} (Value: {item['value']}, Weight: {item['weight']}kg)" for item in self.solution]
         colors = plt.cm.viridis(np.linspace(0, 1, len(self.solution)))
 
-        # Create the figure with three subplots
         fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(12, 8), gridspec_kw={'height_ratios': [4, 1, 1]})
 
-        # Plot each item as a segment in the bar on the first subplot
         for i, item in enumerate(item_names):
-            segment_length = self.solution[i]['weight']  # Length of the segment is the item's weight
+            segment_length = self.solution[i]['weight']
             ax1.barh("Knapsack", segment_length, left=start_points[i], color=colors[i], edgecolor='white', label=item)
 
-        if cumulative_weights:
-            total_weight = cumulative_weights[-1]
-        else:
-            total_weight = 0  # Default value if no items are in the solution
+        total_weight = cumulative_weights[-1] if cumulative_weights else 0
 
         ax1.set_title(f'Knapsack Solution (Total Weight: {total_weight:.2f} / {self.weight_limit}kg, Total Value: {total_value})')
         ax1.set_xlabel('Cumulative Weight')
-
-        # Drawing a line for the weight limit on the first subplot
         ax1.axvline(x=self.weight_limit, color='red', linestyle='-')
 
-        # Third subplot: Solution value vs total possible value
         total_possible_value = self.total_value()
         ax2.barh("Value", total_value, color='green', edgecolor='white')
-        ax2.axvline(x=total_possible_value, color='red', linestyle='-')  # Total possible value line
+        ax2.axvline(x=total_possible_value, color='red', linestyle='-')
         ax2.set_title(f'Solution Value vs Total Possible Value (Solution Value: {total_value}, Total Value: {total_possible_value})')
-        ax2.set_xlim(0, max(total_value, total_possible_value) * 1.1)  # Adjust x-axis limit
+        ax2.set_xlim(0, max(total_value, total_possible_value) * 1.1)
 
-        # Create the legend on the fourth subplot
         handles, labels = ax1.get_legend_handles_labels()
         ax3.legend(handles, labels, loc='upper center', ncol=3)
-        ax3.axis('off')  # Turn off axis for the legend subplot
+        ax3.axis('off')
 
-        # Adjust layout for better appearance
         plt.tight_layout()
-
-        # Show the plot
         plt.show()
 

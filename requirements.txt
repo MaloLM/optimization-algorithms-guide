@@ -3,6 +3,7 @@ scipy
 numpy
 imageio
 networkx
+jupyterlab
 matplotlib
 scikit-learn
 scikit-optimize

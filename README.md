@@ -2,7 +2,7 @@
 
 This project is an open-source collection of various optimization algorithms, each presented in a Jupyter notebook. Its purpose is to provide a comprehensive resource for understanding and implementing these algorithms. It is a valuable asset for both educational and practical applications in optimization tasks.
 
-!["A quick overview of some visualizations"](./assets/images/demo/demo.gif)
+!["A quick overview of some visualizations."](./assets/images/demo/demo.gif "A quick overview of some visualizations")
 
 ## Table of Contents
 
@@ -20,10 +20,27 @@ This project is an open-source collection of various optimization algorithms, ea
 8. [Contact Information](#contact-information)
 
 ## Installation
-- Instructions for setting up the project environment.
-  - Cloning the repository.
-  - Installing dependencies: `pip install -r requirements.txt`.
 
+Follow these steps to set up the project:
+
+1. **Clone the Repository**: 
+   - Open your terminal.
+   - Navigate to the directory where you want to clone the project.
+   - Run the command: `git clone https://github.com/MaloLM/optimization-algorithms-guide.git`.
+
+2. **Install Dependencies**: 
+   - Make sure you have Python installed on your system.
+   - Navigate to the root directory of the cloned project in the terminal.
+   - Run the command: `pip install -r requirements.txt`.
+   - This will install all the Python dependencies listed in the `requirements.txt` file.
+
+3. **Launch JupyterLab**:
+   - After installing dependencies, stay in the project's root directory.
+   - Run the command: `jupyter lab`.
+   - This will start the JupyterLab server and may open a browser window automatically.
+   - If a browser window doesn't open, you can manually navigate to the URL provided in the terminal (usually something like `http://localhost:8888/lab`).
+
+After completing these steps, you should be ready to use the project.
 ## Dependencies
 - Detailed list of dependencies included in `requirements.txt`.
 
@@ -38,7 +55,7 @@ For each algorithm, the corresponding Jupyter notebook will include:
 - Research Sources
 
 ## Algorithms Overview
-### Biomimicry based algorithms
+### Biomimicry based algorithms (even if part of the stochastic optimization)
 - [Ant colony optimization](./algorithms/biomimicry%20based/Ant%20colony.ipynb)
 - [Differential evolution](./algorithms/biomimicry%20based/Differential%20evolution.ipynb)
 - [Genetic algorithms](./algorithms/biomimicry%20based/Genetic%20algorithm.ipynb)
@@ -78,8 +95,46 @@ This page provides a comprehensive resource on test functions used in applied ma
 This project is licensed under the Apache 2.0 License. It allows you to freely use, modify, and distribute the project, subject to certain conditions. For complete details, see [LICENSE](./LICENSE).
 
 ## Contributing
-- Guidelines for contributing to the project.
-- How to submit pull requests, report issues, and suggest enhancements.
+
+### Reporting Issues or Suggesting Improvements
+
+If you encounter any problems or have suggestions for improvements, please feel free to report them in the **Issues** section of the GitHub repository. To ensure efficient and effective communication, please follow these guidelines when submitting an issue:
+
+1. **Use a Clear Title**: Write a concise and informative title for the issue that briefly summarizes the problem or suggestion.
+
+2. **Provide Detailed Information**: In the description, include as much relevant information as possible. This might include:
+   - The steps to reproduce the issue (if applicable).
+   - The expected outcome versus the actual outcome.
+   - Any error messages or screenshots that illustrate the problem.
+   - Your environment details, like the operating system and version of the software you are using.
+
+3. **Label Your Issue**: If possible, categorize your issue using labels. Common labels include `bug`, `feature request`, `enhancement`, `documentation`, etc.
+
+4. **Be Respectful and Constructive**: Remember to be respectful and constructive in your communication. We appreciate your contribution to improving this project.
+
+### Creating a Pull Request
+
+1. **Update Your Fork**:
+   ```bash
+   git fetch upstream
+   git merge upstream/main main
+   ```
+2. **Create a New Branch**:
+   ```bash
+   git checkout -b branch-name
+   ```
+3. **Make Your Changes**.
+4. **Commit and Push Your Changes**:
+   ```bash
+   git add .
+   git commit -m "Descriptive commit message"
+   git push origin branch-name
+   ```
+5. Navigate to the GitHub page of your fork, and click on "New Pull Request".
+6. Ensure the base branch is the main branch of the main repository, and the compare branch is your branch with changes.
+
+
+Thank you for helping us make this project better!
 
 ## Disclaimer of Liability and Usage Terms
 
@@ -102,4 +157,3 @@ Users are advised that employing the code directly in such manners may result in
       <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="Linkedin" height=40>
    </a>
 </div>
-

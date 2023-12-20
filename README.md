@@ -1,6 +1,6 @@
 # Optimization Algorithms Guide
 
-This project is an open-source collection of various optimization algorithms, each presented in a Jupyter notebook. Its purpose is to provide a comprehensive resource for understanding and implementing these algorithms. It is a valuable asset for both educational and practical applications in optimization tasks.
+This project is an open-source collection of various optimization algorithms, each presented in a Jupyter notebook (Python). Its purpose is to provide a comprehensive resource for understanding and implementing these algorithms. It is a valuable asset for both educational and practical applications in optimization tasks.
 
 !["A quick overview of some visualizations."](./assets/images/demo/demo.gif "A quick overview of some visualizations")
 

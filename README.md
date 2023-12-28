@@ -86,7 +86,7 @@ This page on Mathematical Optimization provides a comprehensive overview of opti
 
 The page features a comprehensive list of 164 pages dedicated to various optimization algorithms and methods. This category is a detailed resource, encompassing a wide array of optimization techniques and strategies used in different computational and mathematical contexts.
 
--  [Test Functions for Optimization (Wikipedia)](https://en.wikipedia.org/wiki/Mathematical_optimization)
+-  [Test Functions for Optimization (Wikipedia)](https://en.wikipedia.org/wiki/Test_functions_for_optimization)
 
 This page provides a comprehensive resource on test functions used in applied mathematics to evaluate optimization algorithms. These functions, also known as artificial landscapes, are instrumental in assessing various characteristics of optimization algorithms, including their convergence rate, precision, robustness, and general performance.
 

@@ -59,7 +59,7 @@ For each algorithm, the corresponding Jupyter notebook will include:
 - [Ant colony optimization](./algorithms/biomimicry%20based/Ant%20colony.ipynb)
 - [Differential evolution](./algorithms/biomimicry%20based/Differential%20evolution.ipynb)
 - [Genetic algorithms](./algorithms/biomimicry%20based/Genetic%20algorithm.ipynb)
-- [Particle swarm pptimization](./algorithms/biomimicry%20based/Particle%20swarm%20optimization.ipynb)
+- [Particle swarm optimization](./algorithms/biomimicry%20based/Particle%20swarm%20optimization.ipynb)
 
 ### Decomposition methods
 - [Branch and bound](./algorithms/decompsition%20methods/branch%20and%20bound.ipynb)
@@ -72,7 +72,7 @@ For each algorithm, the corresponding Jupyter notebook will include:
 - [Simplex method](./algorithms/deterministic%20mathematical%20optimization/Simplex%20algorithm.ipynb)
 
 ### Stochastic optimization
-- [Bayesianoptimization](./algorithms/stochastic%20optimization/Bayesian%20optimization.ipynb)
+- [Bayesian optimization](./algorithms/stochastic%20optimization/Bayesian%20optimization.ipynb)
 - [Hill climbing](./algorithms/stochastic%20optimization/Hill%20climbing.ipynb)
 - [Tabu search](./algorithms/stochastic%20optimization/Tabu%20search.ipynb)
 
